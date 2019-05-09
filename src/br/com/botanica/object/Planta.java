@@ -64,10 +64,14 @@ public class Planta {
 	/**
 	 * Construtor de uma planta. Não existe planta sem nome
 	 * 
-	 * @param nome, nome conhecido da planta
+	 * @param nome,        nome conhecido da planta
+	 * @param localizacao, localização na loja
+	 * @param preco,       preço da planta
 	 */
-	public Planta(String nome) {
+	public Planta(String nome, String localizacao, float preco) {
 		this.nome = nome;
+		this.localizacao = localizacao;
+		this.preco = preco;
 	}
 
 	public void setId(int id) {
@@ -166,4 +170,10 @@ public class Planta {
 		this.localizacao = localizacao;
 	}
 
+	@Override
+	public String toString() {
+		return "(" + id + ") nome=" + nome + " - R$" + preco + " [" + localizacao + "]";
+	}
+
+	
 }
