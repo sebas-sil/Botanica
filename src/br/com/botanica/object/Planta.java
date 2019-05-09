@@ -177,7 +177,7 @@ public class Planta {
 
 	@Override
 	public String toString() {
-		return String.format("%03d %s %20s R$ %s", id, localizacao, nome, new DecimalFormat("00.00").format(preco));
+		return String.format("%03d %6s %20s R$ %6.2f", id, localizacao, nome, preco);
 	}
 
 	

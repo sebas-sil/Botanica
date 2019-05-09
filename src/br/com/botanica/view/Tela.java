@@ -147,6 +147,7 @@ public class Tela {
 					for (Planta p : plantas) {
 						System.out.println(p);
 					}
+					System.out.println("Encontrados " + plantas.size());
 					System.out.println();
 				} catch (BotanicaException e) {
 					System.out.println(e.getMessage());
@@ -160,6 +161,7 @@ public class Tela {
 					for (Planta p : plantas) {
 						System.out.println(p);
 					}
+					System.out.println("Encontrados " + plantas.size());
 					System.out.println();
 				} catch (BotanicaException e) {
 					System.out.println(e.getMessage());
