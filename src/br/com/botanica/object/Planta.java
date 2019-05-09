@@ -1,5 +1,7 @@
 package br.com.botanica.object;
 
+import java.text.DecimalFormat;
+
 public class Planta {
 
 	/**
@@ -69,9 +71,9 @@ public class Planta {
 	 * @param preco,       preço da planta
 	 */
 	public Planta(String nome, String localizacao, float preco) {
-		this.nome = nome;
-		this.localizacao = localizacao;
-		this.preco = preco;
+		setNome(nome);
+		setLocalizacao(localizacao);
+		setPreco(preco);
 	}
 
 	public void setId(int id) {
@@ -83,7 +85,10 @@ public class Planta {
 	}
 
 	public void setNome(String nome) {
-		this.nome = nome;
+		// captaliza a primeira letra
+		char[] array = nome.toCharArray();
+		array[0] = Character.toUpperCase(array[0]);
+		this.nome = new String(array);
 	}
 
 	public String getFamilia() {
@@ -172,7 +177,7 @@ public class Planta {
 
 	@Override
 	public String toString() {
-		return "(" + id + ") nome=" + nome + " - R$" + preco + " [" + localizacao + "]";
+		return String.format("%03d %s %20s R$ %s", id, localizacao, nome, new DecimalFormat("00.00").format(preco));
 	}
 
 	
