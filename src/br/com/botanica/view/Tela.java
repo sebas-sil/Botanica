@@ -129,7 +129,10 @@ public class Tela {
 
 				try {
 					planta = controle.select(id);
+					System.out.println();
+					System.out.println(String.format("%3s  %s  %19s %8s", "ID", "Local", "Nome", "Preço"));
 					System.out.println(planta);
+					System.out.println();
 				} catch (BotanicaException e) {
 					System.out.println(e.getMessage());
 				}
@@ -139,9 +142,12 @@ public class Tela {
 				nome = sc.nextLine();
 				try {
 					plantas = controle.select(nome);
+					System.out.println();
+					System.out.println(String.format("%3s  %s  %19s %8s", "ID", "Local", "Nome", "Preço"));
 					for (Planta p : plantas) {
 						System.out.println(p);
 					}
+					System.out.println();
 				} catch (BotanicaException e) {
 					System.out.println(e.getMessage());
 				}
@@ -149,9 +155,12 @@ public class Tela {
 			case 5:
 				try {
 					plantas = controle.select();
+					System.out.println();
+					System.out.println(String.format("%3s  %s  %19s %8s", "ID", "Local", "Nome", "Preço"));
 					for (Planta p : plantas) {
 						System.out.println(p);
 					}
+					System.out.println();
 				} catch (BotanicaException e) {
 					System.out.println(e.getMessage());
 				}
