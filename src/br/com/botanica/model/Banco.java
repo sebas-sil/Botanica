@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,13 +26,19 @@ public class Banco {
 
 		String sql = "INSERT INTO planta (nome, preco, localizacao) VALUES (?,?,?)";
 		Connection conn = this.getConnection();
-		PreparedStatement ps = conn.prepareStatement(sql);
+		PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		ps.setString(1, planta.getNome());
 		ps.setFloat(2, planta.getPreco());
 		ps.setString(3, planta.getLocalizacao());
 
-		int qtd = ps.executeUpdate();
-		retorno = (qtd == 1);
+		ps.executeUpdate();
+		
+		ResultSet rs = ps.getGeneratedKeys();
+		if (rs.next()) {
+			planta.setId(rs.getInt(1));
+		}
+		
+		retorno = (planta.getId() > 0);
 		conn.close();
 		return retorno;
 	}
@@ -123,17 +130,21 @@ public class Banco {
 	public List<Planta> select(String nome) throws ClassNotFoundException, SQLException {
 		List<Planta> plantas = new ArrayList<Planta>();
 
-		String sql = "SELECT id, preco, localizacao FROM planta WHERE nome LIKE ?";
+		String sql = "SELECT id, nome, preco, localizacao FROM planta WHERE nome LIKE ?";
 		Connection conn = this.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql);
 		ps.setString(1, "%" + nome + "%");
 
 		ResultSet rs = ps.executeQuery();
 		Planta planta = null;
+		int id = -1;
+		float preco = -1;
+		String localizacao = null;
 		while (rs.next()) {
-			int id = rs.getInt("id");
-			float preco = rs.getFloat("preco");
-			String localizacao = rs.getString("localizacao");
+			id = rs.getInt("id");
+			preco = rs.getFloat("preco");
+			localizacao = rs.getString("localizacao");
+			nome = rs.getString("nome");
 
 			planta = new Planta(nome, localizacao, preco);
 			planta.setId(id);
