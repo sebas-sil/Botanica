@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="css/listagem.css">
 </head>
 <body>
-	Forma 3: Escrita utilizando jstl (Esse sim, utilize!!!)
+	<div>Seja bem vindo, ${usuario.nome}</div>
 	<table>
 		<tr>
 			<th><fmt:message key="listagem.table.id"/></th>
