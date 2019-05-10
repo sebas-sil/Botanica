@@ -1,5 +1,6 @@
 package br.com.botanica.model;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -194,7 +195,9 @@ public class Banco {
 	 */
 	private Connection getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName(org.sqlite.JDBC.class.getName());
-		return DriverManager.getConnection("jdbc:sqlite:botanica.db3");
+		File file = new File(Banco.class.getResource("/").getPath());
+		// nao funciona local
+		return DriverManager.getConnection("jdbc:sqlite:"+file.getParentFile()+"/botanica.db3");
 	}
 
 }
