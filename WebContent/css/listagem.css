@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+table {
+    width: 80%;
+    text-align: right;
+}
+
+tr {
+    height: calc(1.5em + .75rem + 2px);
+    border-bottom: 1px solid black;
+    width: 100%;
+}

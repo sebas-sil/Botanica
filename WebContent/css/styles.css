@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+html {display: block;}
+
+div {
+}
+
+body {
+	height: 100%;
+}
+
+form {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+input {
+	width: 100%;
+	height: calc(1.5em + .75rem + 2px);
+    border: 1px solid #343a40;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: .5rem;
+    margin-top: 1rem;
+    font-family: "Segoe UI";
+}
+
+button {
+	width: 100%;
+	margin-top: 1rem;
+	height: calc(1.5em + .75rem + 2px);
+}
