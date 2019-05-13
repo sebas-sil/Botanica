@@ -1,18 +1,18 @@
 <%@page import="br.com.botanica.object.Planta"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF8" pageEncoding="UTF8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>  
 <fmt:setBundle basename="resources.application" /> 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Inventário</title>
+<meta charset="UTF8">
+<title>InventÃ¡rio</title>
 <link rel="stylesheet" href="css/listagem.css">
 </head>
 <body>
-	<div>Seja bem vindo, ${usuario.nome}</div>
+	<div>Seja bem vindo, <%=request.getRemoteUser()%></div>
+	<div><a href="logout.jsp">logout</a></div>
 	<table>
 		<tr>
 			<th><fmt:message key="listagem.table.id"/></th>
