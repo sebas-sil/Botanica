@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context docBase="Botanica" path="/Botanica" reloadable="true"
+	source="org.eclipse.jst.jee.server:Botanica">
+
+	<Realm 
+		className="org.apache.catalina.realm.DataSourceRealm" 
+		dataSourceName="jdbc/local_botanica" 
+		userTable="usuario"
+		userNameCol="usr_login" 
+		userCredCol="usr_senha" 
+		userRoleTable="usuario"
+		roleNameCol="usr_role"
+		localDataSource="true" />
+
+
+	<Resource 
+		name="jdbc/local_botanica"
+		auth="Container"
+		type="javax.sql.DataSource" 
+		removeAbandoned="true"
+		removeAbandonedTimeout="15" 
+		maxActive="5" 
+		maxIdle="5" 
+		maxWait="1000"
+		driverClassName="org.sqlite.JDBC"
+		url="jdbc:sqlite:C:\Armazenamento\Pessoal\workspace\Botanica\botanica.db3"
+		validationQuery="SELECT count(*) FROM usuario" 
+		testOnBorrow="true" />
+
+</Context>

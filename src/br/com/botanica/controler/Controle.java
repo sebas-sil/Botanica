@@ -3,6 +3,8 @@ package br.com.botanica.controler;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.naming.NamingException;
+
 import br.com.botanica.exception.BotanicaException;
 import br.com.botanica.model.Banco;
 import br.com.botanica.object.Planta;
@@ -24,7 +26,7 @@ public class Controle {
 		boolean resultado = false;
 		try {
 			resultado = banco.insert(planta);
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException | SQLException | NamingException e) {
 			throw new BotanicaException(e);
 		}
 
@@ -44,7 +46,7 @@ public class Controle {
 		boolean resultado = false;
 		try {
 			resultado = banco.delete(id);
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException | SQLException | NamingException e) {
 			throw new BotanicaException(e);
 		}
 
@@ -63,7 +65,7 @@ public class Controle {
 		boolean resultado = false;
 		try {
 			resultado = banco.update(planta);
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException | SQLException | NamingException e) {
 			throw new BotanicaException(e);
 		}
 
@@ -82,7 +84,7 @@ public class Controle {
 		Planta resultado = null;
 		try {
 			resultado = banco.select(id);
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException | SQLException | NamingException e) {
 			throw new BotanicaException(e);
 		}
 
@@ -106,7 +108,7 @@ public class Controle {
 		List<Planta> resultado = null;
 		try {
 			resultado = banco.select(nome);
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException | SQLException | NamingException e) {
 			e.printStackTrace();
 		}
 
@@ -128,27 +130,12 @@ public class Controle {
 		List<Planta> resultado = null;
 		try {
 			resultado = banco.select();
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException | SQLException | NamingException e) {
 			throw new BotanicaException(e);
 		}
 
 		if (resultado.isEmpty()) {
 			throw new BotanicaException("Nenhum planta cadastrada");
-		}
-
-		return resultado;
-	}
-
-	public Usuario autentica(String login, String senha) throws BotanicaException {
-		Usuario resultado = null;
-		try {
-			resultado = banco.login(login, senha);
-		} catch (ClassNotFoundException | SQLException e) {
-			throw new BotanicaException(e);
-		}
-
-		if (resultado == null) {
-			throw new BotanicaException("Login ou senha incorretos");
 		}
 
 		return resultado;

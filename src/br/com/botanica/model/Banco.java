@@ -1,8 +1,6 @@
 package br.com.botanica.model;
 
-import java.io.File;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,8 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import br.com.botanica.object.Planta;
-import br.com.botanica.object.Usuario;
 
 public class Banco {
 
@@ -22,8 +24,9 @@ public class Banco {
 	 * @return verdadeiro se inserido com sucesso
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
+	 * @throws NamingException 
 	 */
-	public boolean insert(Planta planta) throws ClassNotFoundException, SQLException {
+	public boolean insert(Planta planta) throws ClassNotFoundException, SQLException, NamingException {
 		boolean retorno = false;
 
 		String sql = "INSERT INTO planta (nome, preco, localizacao) VALUES (?,?,?)";
@@ -52,8 +55,9 @@ public class Banco {
 	 * @return verdadeiro se removeu com sucesso
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
+	 * @throws NamingException 
 	 */
-	public boolean delete(int id) throws ClassNotFoundException, SQLException {
+	public boolean delete(int id) throws ClassNotFoundException, SQLException, NamingException {
 		boolean retorno = false;
 
 		String sql = "DELETE FROM planta WHERE id = ?";
@@ -74,8 +78,9 @@ public class Banco {
 	 * @return sucesso se atualizado
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
+	 * @throws NamingException 
 	 */
-	public boolean update(Planta planta) throws ClassNotFoundException, SQLException {
+	public boolean update(Planta planta) throws ClassNotFoundException, SQLException, NamingException {
 		boolean retorno = false;
 
 		String sql = "UPDATE planta SET nome=?, preco=?, localizacao=? WHERE id=?";
@@ -99,8 +104,9 @@ public class Banco {
 	 * @return planta se encontrada ou null
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
+	 * @throws NamingException 
 	 */
-	public Planta select(int id) throws ClassNotFoundException, SQLException {
+	public Planta select(int id) throws ClassNotFoundException, SQLException, NamingException {
 		Planta planta = null;
 
 		String sql = "SELECT nome, preco, localizacao FROM planta WHERE id = ?";
@@ -128,8 +134,9 @@ public class Banco {
 	 * @return plantas encontradas ou lista vazia
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
+	 * @throws NamingException 
 	 */
-	public List<Planta> select(String nome) throws ClassNotFoundException, SQLException {
+	public List<Planta> select(String nome) throws ClassNotFoundException, SQLException, NamingException {
 		List<Planta> plantas = new ArrayList<Planta>();
 
 		String sql = "SELECT id, nome, preco, localizacao FROM planta WHERE nome LIKE ?";
@@ -162,8 +169,9 @@ public class Banco {
 	 * @return uma lista de plantas ou lista vazia
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
+	 * @throws NamingException 
 	 */
-	public List<Planta> select() throws ClassNotFoundException, SQLException {
+	public List<Planta> select() throws ClassNotFoundException, SQLException, NamingException {
 		List<Planta> plantas = new ArrayList<Planta>();
 
 		String sql = "SELECT id,nome,preco,localizacao FROM planta";
@@ -185,40 +193,20 @@ public class Banco {
 		conn.close();
 		return plantas;
 	}
-	
-	public Usuario login(String login, String senha) throws ClassNotFoundException, SQLException {
-		Usuario usuario = null;
-
-		String sql = "SELECT id, nome, role FROM usuario WHERE login = ? AND senha = ?";
-		Connection conn = this.getConnection();
-		PreparedStatement ps = conn.prepareStatement(sql);
-		ps.setString(1, login);
-		ps.setString(2, senha);
-		
-		ResultSet rs = ps.executeQuery();
-		if (rs.next()) {
-			int id = rs.getInt("id");
-			String nome = rs.getString("nome");
-			String role = rs.getString("role");
-
-			usuario = new Usuario(id, login, nome, role);
-		}
-		conn.close();
-		return usuario;
-	}
 
 	/**
-	 * Pega uma conexão com o banco de dados SQLITE3 Esse método pode ser trocado
-	 * pela configuração deum datasource no context
+	 * Pega uma conexão com o banco de dados SQLITE3
 	 * 
 	 * @return Conexao com o banco de dados sqlite3 ou excecao
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
+	 * @throws NamingException 
 	 */
-	private Connection getConnection() throws ClassNotFoundException, SQLException {
-		Class.forName(org.sqlite.JDBC.class.getName());
-		File file = new File(Banco.class.getResource("/").getPath());
-		// nao funciona local
-		return DriverManager.getConnection("jdbc:sqlite:"+file.getParentFile()+"/botanica.db3");
+	private Connection getConnection() throws NamingException, SQLException {
+		InitialContext ctx = new InitialContext();
+		Context initCtx = (Context) ctx.lookup("java:/comp/env");
+		DataSource ds = (DataSource) initCtx.lookup("jdbc/local_botanica");
+		Connection conn = ds.getConnection();
+		return conn;
 	}
 }
