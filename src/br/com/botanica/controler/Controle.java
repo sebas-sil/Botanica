@@ -2,6 +2,7 @@ package br.com.botanica.controler;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 
@@ -11,6 +12,9 @@ import br.com.botanica.object.Planta;
 
 public class Controle {
 
+	private Logger logger = Logger.getLogger(this.getClass().getName());
+	private final static String TAG = "CONTROL";
+	
 	Banco banco = new Banco();
 
 	/**
@@ -22,6 +26,7 @@ public class Controle {
 	 *                            não deve ser vista no código
 	 */
 	public boolean insert(Planta planta) throws BotanicaException {
+		logger.info(String.format("%s - insert - %s", TAG, planta));
 		boolean resultado = false;
 		try {
 			resultado = banco.insert(planta);
@@ -42,6 +47,7 @@ public class Controle {
 	 *                            não deve ser vista no código
 	 */
 	public boolean delete(int id) throws BotanicaException {
+		logger.info(String.format("%s - delete - %d", TAG, id));
 		boolean resultado = false;
 		try {
 			resultado = banco.delete(id);
@@ -61,6 +67,7 @@ public class Controle {
 	 *                            não deve ser vista no código
 	 */
 	public boolean update(Planta planta) throws BotanicaException {
+		logger.info(String.format("%s - update - %s", TAG, planta));
 		boolean resultado = false;
 		try {
 			resultado = banco.update(planta);
@@ -80,6 +87,7 @@ public class Controle {
 	 *                            são achados registros
 	 */
 	public Planta select(int id) throws BotanicaException {
+		logger.info(String.format("%s - select - %s", TAG, id));
 		Planta resultado = null;
 		try {
 			resultado = banco.select(id);
@@ -104,6 +112,7 @@ public class Controle {
 	 *                            são achados registros
 	 */
 	public List<Planta> select(String nome) throws BotanicaException {
+		logger.info(String.format("%s - select  %s", TAG, nome));
 		List<Planta> resultado = null;
 		try {
 			resultado = banco.select(nome);
@@ -126,6 +135,7 @@ public class Controle {
 	 *                            são achados registros
 	 */
 	public List<Planta> select() throws BotanicaException {
+		logger.info(String.format("%s - %s", TAG, "all"));
 		List<Planta> resultado = null;
 		try {
 			resultado = banco.select();

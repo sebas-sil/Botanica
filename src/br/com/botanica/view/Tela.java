@@ -2,14 +2,20 @@ package br.com.botanica.view;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import br.com.botanica.controler.Controle;
 import br.com.botanica.exception.BotanicaException;
 import br.com.botanica.object.Planta;
 
 public class Tela {
+	
+	private static Logger logger = Logger.getLogger(Tela.class.getName());
+	private final static String TAG = "VIEW";
+	
 	public static void main(String[] args) {
-
+		logger.info(String.format("%s - start console", TAG));
 		Controle controle = new Controle();
 		Scanner sc = new Scanner(System.in);
 		int opt = -1;
@@ -112,7 +118,7 @@ public class Tela {
 					System.out.println("Planta atualizada com sucesso!");
 
 				} catch (BotanicaException e) {
-					System.out.println(e.getMessage());
+					logger.log(Level.SEVERE, e.getMessage(), e);
 				}
 
 				break;
@@ -134,7 +140,7 @@ public class Tela {
 					System.out.println(planta);
 					System.out.println();
 				} catch (BotanicaException e) {
-					System.out.println(e.getMessage());
+					logger.log(Level.SEVERE, e.getMessage(), e);
 				}
 				break;
 			case 4:
@@ -150,7 +156,7 @@ public class Tela {
 					System.out.println("Encontrados " + plantas.size());
 					System.out.println();
 				} catch (BotanicaException e) {
-					System.out.println(e.getMessage());
+					logger.log(Level.SEVERE, e.getMessage(), e);
 				}
 				break;
 			case 5:
@@ -164,7 +170,7 @@ public class Tela {
 					System.out.println("Encontrados " + plantas.size());
 					System.out.println();
 				} catch (BotanicaException e) {
-					System.out.println(e.getMessage());
+					logger.log(Level.SEVERE, e.getMessage(), e);
 				}
 
 				break;
@@ -183,7 +189,7 @@ public class Tela {
 					controle.delete(id);
 					System.out.println("Planta removida com sucesso");
 				} catch (BotanicaException e) {
-					System.out.println(e.getMessage());
+					logger.log(Level.SEVERE, e.getMessage(), e);
 				}
 				break;
 			case 7:

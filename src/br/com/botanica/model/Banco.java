@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -17,6 +18,9 @@ import br.com.botanica.object.Planta;
 
 public class Banco {
 
+	private Logger logger = Logger.getLogger(this.getClass().getName());
+	private final static String TAG = "DATABASE";
+	
 	/**
 	 * Insere uma planta no banco de dados
 	 * 
@@ -27,6 +31,7 @@ public class Banco {
 	 * @throws NamingException 
 	 */
 	public boolean insert(Planta planta) throws ClassNotFoundException, SQLException, NamingException {
+		logger.info(String.format("%s - insert - %s", TAG, planta));
 		boolean retorno = false;
 
 		String sql = "INSERT INTO planta (nome, preco, localizacao) VALUES (?,?,?,?)";
@@ -59,6 +64,7 @@ public class Banco {
 	 * @throws NamingException 
 	 */
 	public boolean delete(int id) throws ClassNotFoundException, SQLException, NamingException {
+		logger.info(String.format("%s - delete - %d", TAG, id));
 		boolean retorno = false;
 
 		String sql = "DELETE FROM planta WHERE id = ?";
@@ -82,6 +88,7 @@ public class Banco {
 	 * @throws NamingException 
 	 */
 	public boolean update(Planta planta) throws ClassNotFoundException, SQLException, NamingException {
+		logger.info(String.format("%s - update - %s", TAG, planta));
 		boolean retorno = false;
 
 		String sql = "UPDATE planta SET nome=?, preco=?, localizacao=?, imagem=? WHERE id=?";
@@ -109,6 +116,7 @@ public class Banco {
 	 * @throws NamingException 
 	 */
 	public Planta select(int id) throws ClassNotFoundException, SQLException, NamingException {
+		logger.info(String.format("%s - select - %s", TAG, id));
 		Planta planta = null;
 
 		String sql = "SELECT nome, preco, localizacao, imagem FROM planta WHERE id = ?";
@@ -140,6 +148,7 @@ public class Banco {
 	 * @throws NamingException 
 	 */
 	public List<Planta> select(String nome) throws ClassNotFoundException, SQLException, NamingException {
+		logger.info(String.format("%s - select  %s", TAG, nome));
 		List<Planta> plantas = new ArrayList<Planta>();
 
 		String sql = "SELECT id, nome, preco, localizacao, imagem FROM planta WHERE nome LIKE ?";
@@ -177,6 +186,7 @@ public class Banco {
 	 * @throws NamingException 
 	 */
 	public List<Planta> select() throws ClassNotFoundException, SQLException, NamingException {
+		logger.info(String.format("%s - select - %s", TAG, "all"));
 		List<Planta> plantas = new ArrayList<Planta>();
 
 		String sql = "SELECT id,nome,preco,localizacao,imagem FROM planta";
@@ -214,6 +224,7 @@ public class Banco {
 	 * @throws NamingException 
 	 */
 	private Connection getConnection() throws NamingException, SQLException {
+		logger.info(String.format("%s - get connection", TAG));
 		InitialContext ctx = new InitialContext();
 		Context initCtx = (Context) ctx.lookup("java:/comp/env");
 		DataSource ds = (DataSource) initCtx.lookup("jdbc/local_botanica");
