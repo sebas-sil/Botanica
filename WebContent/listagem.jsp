@@ -9,10 +9,10 @@
 <meta charset="UTF8">
 <title>Inventário</title>
 <link rel="stylesheet" href="css/listagem.css">
+<link rel="icon" href="imagens/favicon.jpg" />
 </head>
 <body>
-	<div>Seja bem vindo, <%=request.getRemoteUser()%></div>
-	<div><a href="logout.jsp">logout</a></div>
+	<jsp:include page="/header.jsp"  />
 	<table>
 		<tr>
 			<th><fmt:message key="listagem.table.id"/></th>

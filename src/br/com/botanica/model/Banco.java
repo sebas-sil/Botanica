@@ -34,7 +34,7 @@ public class Banco {
 		logger.info(String.format("%s - insert - %s", TAG, planta));
 		boolean retorno = false;
 
-		String sql = "INSERT INTO planta (nome, preco, localizacao) VALUES (?,?,?,?)";
+		String sql = "INSERT INTO planta (nome, preco, localizacao, imagem) VALUES (?,?,?,?)";
 		Connection conn = this.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		ps.setString(1, planta.getNome());

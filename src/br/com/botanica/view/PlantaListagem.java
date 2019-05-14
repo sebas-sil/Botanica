@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.botanica.controler.Controle;
-import br.com.botanica.exception.BotanicaException;
 import br.com.botanica.object.Planta;
 
 @WebServlet(description = "Servlet para listagem das plantas já cadastradas", urlPatterns = { "/PlantaListagem" })
@@ -36,11 +35,11 @@ public class PlantaListagem extends HttpServlet {
 				request.setAttribute("error_mgn", "Área restrita, você deve estar autenticado");
 				request.getRequestDispatcher("/login").forward(request, response);
 			} else {
-				if(request.isUserInRole("ADMIN")) {
+				if(request.isUserInRole("ADMIN") || request.isUserInRole("USER")) {
 					logger.info(String.format("%s - %s", TAG, "Usuário autenticado como " + usuario.getName()));
 					List<Planta> plantas = controle.select();
 					request.setAttribute("plantas", plantas);
-					request.getRequestDispatcher("/listagem2.jsp").forward(request, response);
+					request.getRequestDispatcher("/listagem.jsp").forward(request, response);
 				} else {
 					// nao permitido
 					logger.info(String.format("%s - %s", TAG, "Acesso não autorizado para o usuário " + usuario.getName()));
@@ -49,8 +48,10 @@ public class PlantaListagem extends HttpServlet {
 				}
 				
 			}
-		} catch (BotanicaException e) {
+		} catch (Exception e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
+			request.setAttribute("error_mgn", "Um erro ocorreu ao listar os registros");
+			response.sendError(500);
 		}
 	}
 
