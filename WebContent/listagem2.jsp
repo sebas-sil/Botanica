@@ -19,6 +19,7 @@
 			<th><fmt:message key="listagem.table.nome"/></th>
 			<th><fmt:message key="listagem.table.local"/></th>
 			<th><fmt:message key="listagem.table.preco"/></th>
+			<th><fmt:message key="listagem.table.imagem"/></th>
 		</tr>
 		<c:forEach var="planta" items="${plantas}">
 		<tr>
@@ -26,6 +27,7 @@
 			<td><c:out value="${planta.nome}"/></td>
 			<td><c:out value="${planta.localizacao}"/></td>
 			<td><fmt:formatNumber currencySymbol="R$" value="${planta.preco}" type="currency" /></td>
+			<td><img alt="<c:out value="${planta.nome}"/>" src="<c:out value="${planta.imagem}"/>"></td>
 		</tr>
 		</c:forEach>
 	</table>

@@ -29,12 +29,13 @@ public class Banco {
 	public boolean insert(Planta planta) throws ClassNotFoundException, SQLException, NamingException {
 		boolean retorno = false;
 
-		String sql = "INSERT INTO planta (nome, preco, localizacao) VALUES (?,?,?)";
+		String sql = "INSERT INTO planta (nome, preco, localizacao) VALUES (?,?,?,?)";
 		Connection conn = this.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		ps.setString(1, planta.getNome());
 		ps.setFloat(2, planta.getPreco());
 		ps.setString(3, planta.getLocalizacao());
+		ps.setString(4, planta.getImagem());
 
 		ps.executeUpdate();
 		
@@ -83,13 +84,14 @@ public class Banco {
 	public boolean update(Planta planta) throws ClassNotFoundException, SQLException, NamingException {
 		boolean retorno = false;
 
-		String sql = "UPDATE planta SET nome=?, preco=?, localizacao=? WHERE id=?";
+		String sql = "UPDATE planta SET nome=?, preco=?, localizacao=?, imagem=? WHERE id=?";
 		Connection conn = this.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql);
 		ps.setString(1, planta.getNome());
 		ps.setFloat(2, planta.getPreco());
 		ps.setString(3, planta.getLocalizacao());
-		ps.setInt(4, planta.getId());
+		ps.setString(4, planta.getImagem());
+		ps.setInt(5, planta.getId());
 
 		int qtd = ps.executeUpdate();
 		retorno = (qtd == 1);
@@ -109,7 +111,7 @@ public class Banco {
 	public Planta select(int id) throws ClassNotFoundException, SQLException, NamingException {
 		Planta planta = null;
 
-		String sql = "SELECT nome, preco, localizacao FROM planta WHERE id = ?";
+		String sql = "SELECT nome, preco, localizacao, imagem FROM planta WHERE id = ?";
 		Connection conn = this.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql);
 		ps.setInt(1, id);
@@ -119,8 +121,9 @@ public class Banco {
 			String nome = rs.getString("nome");
 			float preco = rs.getFloat("preco");
 			String localizacao = rs.getString("localizacao");
+			String imagem = rs.getString("imagem");
 
-			planta = new Planta(nome, localizacao, preco);
+			planta = new Planta(nome, localizacao, preco, imagem);
 			planta.setId(id);
 		}
 		conn.close();
@@ -139,7 +142,7 @@ public class Banco {
 	public List<Planta> select(String nome) throws ClassNotFoundException, SQLException, NamingException {
 		List<Planta> plantas = new ArrayList<Planta>();
 
-		String sql = "SELECT id, nome, preco, localizacao FROM planta WHERE nome LIKE ?";
+		String sql = "SELECT id, nome, preco, localizacao, imagem FROM planta WHERE nome LIKE ?";
 		Connection conn = this.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql);
 		ps.setString(1, "%" + nome + "%");
@@ -149,13 +152,15 @@ public class Banco {
 		int id = -1;
 		float preco = -1;
 		String localizacao = null;
+		String imagem = null;
 		while (rs.next()) {
 			id = rs.getInt("id");
 			preco = rs.getFloat("preco");
 			localizacao = rs.getString("localizacao");
 			nome = rs.getString("nome");
+			imagem = rs.getString("imagem");
 
-			planta = new Planta(nome, localizacao, preco);
+			planta = new Planta(nome, localizacao, preco, imagem);
 			planta.setId(id);
 			plantas.add(planta);
 		}
@@ -174,19 +179,25 @@ public class Banco {
 	public List<Planta> select() throws ClassNotFoundException, SQLException, NamingException {
 		List<Planta> plantas = new ArrayList<Planta>();
 
-		String sql = "SELECT id,nome,preco,localizacao FROM planta";
+		String sql = "SELECT id,nome,preco,localizacao,imagem FROM planta";
 		Connection conn = this.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql);
 
 		ResultSet rs = ps.executeQuery();
 		Planta planta = null;
+		int id = -1;
+		float preco = -1;
+		String localizacao = null;
+		String nome = null;
+		String imagem = null;
 		while (rs.next()) {
-			int id = rs.getInt("id");
-			String nome = rs.getString("nome");
-			float preco = rs.getFloat("preco");
-			String localizacao = rs.getString("localizacao");
+			id = rs.getInt("id");
+			preco = rs.getFloat("preco");
+			localizacao = rs.getString("localizacao");
+			nome = rs.getString("nome");
+			imagem = rs.getString("imagem");
 
-			planta = new Planta(nome, localizacao, preco);
+			planta = new Planta(nome, localizacao, preco, imagem);
 			planta.setId(id);
 			plantas.add(planta);
 		}

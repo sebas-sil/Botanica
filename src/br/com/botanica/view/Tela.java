@@ -63,7 +63,7 @@ public class Tela {
 					}
 				}
 
-				planta = new Planta(nome, localizacao, preco);
+				planta = new Planta(nome, localizacao, preco, null);
 				try {
 					controle.insert(planta);
 					System.out.println("Planta inserida com sucesso!");

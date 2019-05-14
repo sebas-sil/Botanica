@@ -1,7 +1,5 @@
 package br.com.botanica.object;
 
-import java.text.DecimalFormat;
-
 public class Planta {
 
 	/**
@@ -62,6 +60,11 @@ public class Planta {
 	 * localização dentro da loja
 	 */
 	private String localizacao;
+	
+	/**
+	 * Imagem no formato 'data:image/webp;base64'
+	 */
+	private String imagem;
 
 	/**
 	 * Construtor de uma planta. Não existe planta sem nome
@@ -69,11 +72,13 @@ public class Planta {
 	 * @param nome,        nome conhecido da planta
 	 * @param localizacao, localização na loja
 	 * @param preco,       preço da planta
+	 * @param imagem,      imagem em base64
 	 */
-	public Planta(String nome, String localizacao, float preco) {
+	public Planta(String nome, String localizacao, float preco, String imagem) {
 		setNome(nome);
 		setLocalizacao(localizacao);
 		setPreco(preco);
+		setImagem(imagem);
 	}
 
 	public void setId(int id) {
@@ -175,10 +180,17 @@ public class Planta {
 		this.localizacao = localizacao;
 	}
 
+	public String getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
+	}
+
 	@Override
 	public String toString() {
 		return String.format("%03d %6s %20s R$ %6.2f", id, localizacao, nome, preco);
 	}
-
 	
 }

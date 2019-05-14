@@ -8,7 +8,6 @@ import javax.naming.NamingException;
 import br.com.botanica.exception.BotanicaException;
 import br.com.botanica.model.Banco;
 import br.com.botanica.object.Planta;
-import br.com.botanica.object.Usuario;
 
 public class Controle {
 
