@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.botanica.object.Planta;
+import br.com.botanica.object.Usuario;
 
 public class Banco {
 
@@ -184,6 +185,27 @@ public class Banco {
 		conn.close();
 		return plantas;
 	}
+	
+	public Usuario login(String login, String senha) throws ClassNotFoundException, SQLException {
+		Usuario usuario = null;
+
+		String sql = "SELECT id, nome, role FROM usuario WHERE login = ? AND senha = ?";
+		Connection conn = this.getConnection();
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setString(1, login);
+		ps.setString(2, senha);
+		
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			int id = rs.getInt("id");
+			String nome = rs.getString("nome");
+			String role = rs.getString("role");
+
+			usuario = new Usuario(id, login, nome, role);
+		}
+		conn.close();
+		return usuario;
+	}
 
 	/**
 	 * Pega uma conexão com o banco de dados SQLITE3 Esse método pode ser trocado
@@ -199,5 +221,4 @@ public class Banco {
 		// nao funciona local
 		return DriverManager.getConnection("jdbc:sqlite:"+file.getParentFile()+"/botanica.db3");
 	}
-
 }

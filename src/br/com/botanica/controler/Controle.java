@@ -6,6 +6,7 @@ import java.util.List;
 import br.com.botanica.exception.BotanicaException;
 import br.com.botanica.model.Banco;
 import br.com.botanica.object.Planta;
+import br.com.botanica.object.Usuario;
 
 public class Controle {
 
@@ -133,6 +134,21 @@ public class Controle {
 
 		if (resultado.isEmpty()) {
 			throw new BotanicaException("Nenhum planta cadastrada");
+		}
+
+		return resultado;
+	}
+
+	public Usuario autentica(String login, String senha) throws BotanicaException {
+		Usuario resultado = null;
+		try {
+			resultado = banco.login(login, senha);
+		} catch (ClassNotFoundException | SQLException e) {
+			throw new BotanicaException(e);
+		}
+
+		if (resultado == null) {
+			throw new BotanicaException("Login ou senha incorretos");
 		}
 
 		return resultado;
